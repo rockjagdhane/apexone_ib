@@ -39,9 +39,7 @@ html_code = """
             font-family: 'Inter', sans-serif;
             background-color: var(--apex-dark);
             color: #ffffff;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         .hero-gradient {
@@ -99,16 +97,6 @@ html_code = """
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--apex-blue); }
-
-        .loader {
-            border: 2px solid rgba(255,255,255,0.1);
-            border-top: 2px solid var(--apex-blue);
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -120,9 +108,9 @@ html_code = """
             </div>
             <div class="hidden md:flex space-x-8 text-sm font-medium tracking-widest text-white/60">
                 <a href="#modes" class="hover:text-white transition">MODES</a>
-                <a href="#lab" class="hover:text-white transition">✨ LAB</a>
                 <a href="#features" class="hover:text-white transition">HARDWARE</a>
                 <a href="#os" class="hover:text-white transition">APEX OS</a>
+                <a href="#subscription" class="hover:text-white transition">SUBSCRIPTION</a>
             </div>
             <button class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-full text-xs font-bold transition">ORDER NOW</button>
         </div>
@@ -135,7 +123,6 @@ html_code = """
             <p class="text-white/40 max-w-xl mx-auto text-lg mb-10">The world's first predictive nutrient system. Apex One learns your daily rhythm and automates your essential intake.</p>
             <div class="flex flex-col md:flex-row justify-center gap-4">
                 <a href="#modes" class="bg-white text-black px-10 py-4 rounded-full font-bold transition hover:bg-blue-500 hover:text-white">Explore Modes</a>
-                <a href="#lab" class="bg-blue-600/20 text-blue-400 border border-blue-600/30 px-10 py-4 rounded-full font-bold transition hover:bg-blue-600/40">Try Smart Lab</a>
             </div>
         </div>
         <div class="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-blue-900/10 to-transparent"></div>
@@ -168,37 +155,6 @@ html_code = """
                     <i class="fas fa-heartbeat text-green-500 text-2xl mb-4"></i>
                     <h3 class="font-bold text-green-500 mb-2">RECOVERY</h3>
                     <p class="text-white/40 text-sm">Zinc + Vitamin C shield to support post-exertion repair.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ✨ SMART PERFORMANCE LAB (GEMINI API) -->
-    <section id="lab" class="py-32 px-6 bg-white/5">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-16 reveal">
-                <p class="text-blue-500 font-bold tracking-[0.2em] text-xs mb-2">POWERED BY GEMINI AI</p>
-                <h2 class="text-5xl font-bold mb-6">Smart Lab.</h2>
-                <p class="text-white/40 text-lg">Describe your routine and let Apex OS automate your protocol.</p>
-            </div>
-            
-            <div class="glass-card p-10 rounded-[3rem] reveal">
-                <textarea id="labPrompt" class="w-full bg-transparent text-white border-b border-white/10 pb-4 mb-8 focus:outline-none text-xl resize-none" placeholder="e.g., I'm running a marathon at 6am and then have a high-stakes meeting at 2pm..."></textarea>
-                <div class="flex justify-between items-center">
-                    <button id="genLabBtn" onclick="generateProtocol()" class="bg-blue-600 text-white px-10 py-4 rounded-2xl font-bold text-sm tracking-widest hover:bg-blue-500 transition">GENERATE PROTOCOL</button>
-                    <div id="labLoading" class="hidden"><div class="loader"></div></div>
-                </div>
-
-                <div id="labResponse" class="hidden pt-10 space-y-6">
-                    <div class="p-6 bg-white/5 rounded-3xl border border-white/5">
-                        <p id="responseText" class="text-sm text-white/60 leading-relaxed italic"></p>
-                    </div>
-                    <div class="grid grid-cols-4 gap-4">
-                        <div class="p-4 bg-white/5 rounded-2xl text-center"><p class="text-[10px] opacity-30">ENERGY</p><p id="st-e" class="text-xs font-bold text-orange-500">--</p></div>
-                        <div class="p-4 bg-white/5 rounded-2xl text-center"><p class="text-[10px] opacity-30">FOCUS</p><p id="st-f" class="text-xs font-bold text-purple-500">--</p></div>
-                        <div class="p-4 bg-white/5 rounded-2xl text-center"><p class="text-[10px] opacity-30">VITAMINS</p><p id="st-v" class="text-xs font-bold text-green-500">--</p></div>
-                        <div class="p-4 bg-white/5 rounded-2xl text-center"><p class="text-[10px] opacity-30">HYDRATE</p><p id="st-h" class="text-xs font-bold text-sky-400">--</p></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -262,78 +218,67 @@ html_code = """
         </div>
     </section>
 
+    <section id="subscription" class="py-32 px-6">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <h2 class="text-4xl font-bold mb-10">Choose Your Performance.</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-card p-10 rounded-[40px] border-white/5">
+                    <h3 class="text-xl font-bold mb-2">Apex Standard</h3>
+                    <p class="text-white/30 mb-6 italic">Core Features Included</p>
+                    <ul class="text-left space-y-4 mb-8 text-white/60 text-sm">
+                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Manual Dial Mode Control</li>
+                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Basic Hydration Tracking</li>
+                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Static White Logo LED</li>
+                    </ul>
+                    <button class="w-full py-4 border border-white/20 rounded-2xl font-bold hover:bg-white hover:text-black transition">Current Tier</button>
+                </div>
+                <div class="glass-card p-10 rounded-[40px] border-blue-500 bg-blue-500/5 relative">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-[10px] font-bold">BEST VALUE</div>
+                    <h3 class="text-xl font-bold mb-2">Apex Elite</h3>
+                    <p class="text-blue-400 mb-6 font-bold">$9.99 / Mo</p>
+                    <ul class="text-left space-y-4 mb-8 text-white/80 text-sm">
+                        <li><i class="fas fa-star text-blue-500 mr-2"></i> **Autonomous Routine Simulation**</li>
+                        <li><i class="fas fa-star text-blue-500 mr-2"></i> **Full Health App Predictive Mix**</li>
+                        <li><i class="fas fa-star text-blue-500 mr-2"></i> **Autonomous Auto-Ship**</li>
+                        <li><i class="fas fa-star text-blue-500 mr-2"></i> **20% Off All Master Cells**</li>
+                    </ul>
+                    <button class="w-full py-4 bg-blue-600 rounded-2xl font-bold hover:bg-blue-500 transition shadow-lg shadow-blue-500/20">Upgrade Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="py-20 border-t border-white/5 text-center">
         <div class="logo-text text-2xl font-bold tracking-[0.4em] mb-6">APEXONE</div>
         <p class="text-white/20 text-xs tracking-widest uppercase">Precision Hydration. Autopilot Performance.</p>
     </footer>
 
     <script>
-        const apiKey = ""; // Execution environment provides key
-
-        /**
-         * ✨ Gemini API Integration - Smart Performance Lab
-         */
-        async function generateProtocol() {
-            const prompt = document.getElementById('labPrompt').value;
-            if(!prompt) return;
-
-            const loader = document.getElementById('labLoading');
-            const responseDiv = document.getElementById('labResponse');
-            const textEl = document.getElementById('responseText');
-            const btn = document.getElementById('genLabBtn');
-
-            loader.classList.remove('hidden');
-            responseDiv.classList.add('hidden');
-            btn.disabled = true;
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `User Routine: ${prompt}. Explain the Apex One nutrient protocol. End with JSON: {"e":"80%","f":"30%","v":"High","h":"800ml/hr"}` }] }],
-                        systemInstruction: { parts: [{ text: "You are Apex OS Nutrition Intelligence. Provide a scientific, high-performance hydration protocol." }] }
-                    })
-                });
-
-                const data = await response.json();
-                const raw = data.candidates[0].content.parts[0].text;
-                
-                const jsonMatch = raw.match(/\{.*\}/);
-                if(jsonMatch) {
-                    const stats = JSON.parse(jsonMatch[0]);
-                    document.getElementById('st-e').innerText = stats.e;
-                    document.getElementById('st-f').innerText = stats.f;
-                    document.getElementById('st-v').innerText = stats.v;
-                    document.getElementById('st-h').innerText = stats.h;
-                }
-                textEl.innerText = raw.replace(/\{.*\}/, '').trim();
-                responseDiv.classList.remove('hidden');
-            } catch (e) {
-                console.error(e);
-            } finally {
-                loader.classList.add('hidden');
-                btn.disabled = false;
-            }
-        }
-
-        // 1. Logo Animation
+        // 1. Tesla-Style Logo Battery Animation on Hover/Load
         const logo = document.getElementById('mainLogo');
         function triggerCharge() {
             logo.classList.add('charging');
             setTimeout(() => logo.classList.remove('charging'), 3000);
         }
+        
         logo.addEventListener('mouseenter', triggerCharge);
         window.addEventListener('load', triggerCharge);
 
-        // 2. Reveal Animations
+        // 2. Reveal Animations on Scroll
         const reveals = document.querySelectorAll('.reveal');
+        const observerOptions = { threshold: 0.1 };
+
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
         reveals.forEach(el => observer.observe(el));
 
-        // 3. Fluid Level Simulation
+        // 3. Fluid Level Simulation (Hardware Section)
         setInterval(() => {
             const level = document.getElementById('fluidLevel');
             if (level) {
@@ -347,16 +292,12 @@ html_code = """
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
                 if (targetId === "#") return;
+                
                 e.preventDefault();
                 const target = document.querySelector(targetId);
                 if (target) target.scrollIntoView({ behavior: 'smooth' });
             });
         });
-
-        window.onload = () => {
-            document.querySelector('.reveal').classList.add('active');
-            triggerCharge();
-        }
     </script>
 </body>
 </html>
